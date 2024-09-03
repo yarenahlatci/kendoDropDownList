@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <!-- DropDownList'in yer aldığı HTML yapı -->
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300">
+        <label for="select">T-shirt Size</label>
+        <!-- HTML Select elementi, Kendo DropDownList widget'ı tarafından dönüştürülecek -->
+        <select id="select" placeholder="Select size..." accesskey="w">
+          <option>X-Small</option>
+          <option>Small</option>
+          <option>Medium</option>
+          <option selected>Large</option>
+          <option>X-Large</option>
+          <option>2X-Large</option>
+        </select>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        // `#select` elementini Kendo DropDownList widget'ına dönüştürür
+        $("#select").kendoDropDownList();
+      });
+    </script>
+  </body>
+</html>

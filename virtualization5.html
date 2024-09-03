@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300">
+        <label for="orders">Search for shipping name:</label>
+        <input id="orders" />
+      </div>
+    </div>
+  </body>
+  <script>
+    // Sayfa tamamen yüklendiğinde çalışacak fonksiyonu başlatır
+    $(document).ready(function () {
+      // Kendo UI DropDownList widget'ını '#orders' ID'li HTML öğesi için oluşturur
+      $("#orders").kendoDropDownList({
+        // Liste öğeleri için özel bir şablon tanımlar
+        template:
+          '<span class="order-id">#= OrderID #</span> #= ShipName #, #= ShipCountry #',
+        // DropDownList'te gösterilecek veri alanını belirtir
+        dataTextField: "ShipName", // Liste öğelerinde görünecek metin (gemi adı)
+
+        // DropDownList'te arka planda tutulacak veri alanını belirtir
+        dataValueField: "OrderID", // Liste öğelerinin değeri (sipariş ID'si)
+
+        // Arama filtreleme türünü belirtir
+        filter: "contains", // Arama, girilen metin içeren öğeleri gösterir
+
+        // Sanal kaydırma (virtual scrolling) yapılandırması
+        virtual: {
+          itemHeight: 26, // Her bir liste öğesinin yüksekliği (piksel cinsinden)
+
+          // Liste öğeleri için değerleri sunucudan alır
+          valueMapper: function (options) {
+            $.ajax({
+              url: "https://demos.telerik.com/kendo-ui/service/Orders/ValueMapper", // Verilerin alındığı URL
+              type: "GET", // HTTP yöntemi
+              dataType: "jsonp", // JSONP formatında veri alımı
+              data: convertValues(options.value), // İstekle gönderilecek veri
+              success: function (data) {
+                options.success(data); // Başarılı istek yanıtı
+              },
+            });
+          },
+        },
+
+        // DropDownList'in yüksekliğini ayarlar
+        height: 520, // DropDownList'in yüksekliği (piksel cinsinden)
+
+        // Veri kaynağını yapılandırır
+        dataSource: {
+          type: "odata", // Veri kaynağı türü, OData protokolü ile veri alımı yapılır
+
+          transport: {
+            // Verinin alım türünü belirtir
+            read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Orders", // Veri kaynağının URL'si
+          },
+
+          // Verinin şemasını tanımlar
+          schema: {
+            model: {
+              fields: {
+                OrderID: { type: "number" }, // Sipariş ID'si
+                Freight: { type: "number" }, // Nakliye ücreti
+                ShipName: { type: "string" }, // Gemi adı
+                OrderDate: { type: "date" }, // Sipariş tarihi
+                ShipCity: { type: "string" }, // Gemi kenti
+              },
+            },
+          },
+
+          // Sayfalama ve filtreleme ayarları
+          pageSize: 80, // Sayfa başına gösterilecek öğe sayısı
+          serverPaging: true, // Sunucu tarafında sayfalama yapılır
+          serverFiltering: true, // Sunucu tarafında filtreleme yapılır
+        },
+      });
+    });
+
+    // Seçilen değerleri sunucuya uygun formatta dönüştüren fonksiyon
+    function convertValues(value) {
+      var data = {};
+
+      // Tekil veya dizi değerlerini destekler
+      value = $.isArray(value) ? value : [value];
+
+      // Değerleri uygun forma dönüştürür
+      for (var idx = 0; idx < value.length; idx++) {
+        data["values[" + idx + "]"] = value[idx];
+      }
+
+      return data;
+    }
+  </script>
+</html>

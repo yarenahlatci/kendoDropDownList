@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <style>
+    .k-readonly
+    {
+        color: gray;
+    }
+</style>
+  <body>
+        
+			<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+				<div class="k-w-300">
+					<label for="categories">Categories:</label>
+					<input id="categories" />
+					</br>
+					</br>
+					</br>
+
+					<label for="products">Products:</label>
+					<input id="products" disabled="disabled" />
+					</br>
+					</br>
+					</br>
+
+					<label for="orders">Orders</label>
+					<input id="orders" disabled="disabled" />
+
+					<button class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" id="get" style="margin-top: 2em; float: right;">View Order</button>
+				</div>
+			</div>
+  </body>
+  <script>
+    $(document).ready(function() {
+        // Kategoriler DropDownList oluşturulur
+        var categories = $("#categories").kendoDropDownList({
+            optionLabel: "Select category...", // İlk seçenek etiketi
+            dataTextField: "CategoryName", // Liste öğelerinde gösterilecek metin
+            dataValueField: "CategoryID", // Liste öğelerinin değerleri
+            dataSource: {
+                type: "odata", // Veri kaynağı türü
+                serverFiltering: true, // Sunucu tarafı filtreleme etkinleştirilir
+                transport: {
+                    read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Categories" // Veri okuma URL'si
+                }
+            }
+        }).data("kendoDropDownList"); // KendoDropDownList nesnesi alınır
+
+        // Ürünler DropDownList oluşturulur
+        var products = $("#products").kendoDropDownList({
+            autoBind: false, // Sayfa yüklendiğinde otomatik olarak veri bağlanmaz
+            cascadeFrom: "categories", // Ürünler listesi, kategorilere bağlı olarak güncellenir
+            optionLabel: "Select product...", // İlk seçenek etiketi
+            dataTextField: "ProductName", // Liste öğelerinde gösterilecek metin
+            dataValueField: "ProductID", // Liste öğelerinin değerleri
+            dataSource: {
+                type: "odata", // Veri kaynağı türü
+                serverFiltering: true, // Sunucu tarafı filtreleme etkinleştirilir
+                transport: {
+                    read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products" // Veri okuma URL'si
+                }
+            }
+        }).data("kendoDropDownList"); // KendoDropDownList nesnesi alınır
+
+        // Siparişler DropDownList oluşturulur
+        var orders = $("#orders").kendoDropDownList({
+            autoBind: false, // Sayfa yüklendiğinde otomatik olarak veri bağlanmaz
+            cascadeFrom: "products", // Siparişler listesi, ürünlere bağlı olarak güncellenir
+            optionLabel: "Select order...", // İlk seçenek etiketi
+            dataTextField: "Order.ShipCity", // Liste öğelerinde gösterilecek metin (siparişlerin gönderildiği şehir)
+            dataValueField: "OrderID", // Liste öğelerinin değerleri
+            dataSource: {
+                type: "odata", // Veri kaynağı türü
+                serverFiltering: true, // Sunucu tarafı filtreleme etkinleştirilir
+                transport: {
+                    read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Order_Details?$expand=Order" // Veri okuma URL'si
+                }
+            }
+        }).data("kendoDropDownList"); // KendoDropDownList nesnesi alınır
+
+        // "Get" butonuna tıklama olayı
+        $("#get").click(function() {
+            // Seçilen kategoriyi, ürünü ve siparişi alır
+            var categoryInfo = "\nCategory: { id: " + categories.value() + ", name: " + categories.text() + " }",
+                productInfo = "\nProduct: { id: " + products.value() + ", name: " + products.text() + " }",
+                orderInfo = "\nOrder: { id: " + orders.value() + ", name: " + orders.text() + " }";
+
+            // Seçilen değerleri bir uyarı mesajında gösterir
+            alert("Order details:\n" + categoryInfo + productInfo + orderInfo);
+        });
+    });
+</script>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300">
+        <label for="products">Products:</label>
+        <input id="products" />
+      </div>
+    </div>
+  </body>
+  <script>
+    // Belge tamamen yüklendiğinde çalışacak fonksiyonu başlatır
+    $(document).ready(function () {
+      // Kendo UI DropDownList widget'ını '#products' ID'li HTML öğesi için oluşturur
+      $("#products").kendoDropDownList({
+        // DropDownList'te gösterilecek veri alanını belirtir
+        dataTextField: "ProductName", // Liste öğelerinde görünecek metin (ürün adı)
+
+        // DropDownList'te arka planda tutulacak veri alanını belirtir
+        dataValueField: "ProductID", // Liste öğelerinin değeri (ürün ID'si)
+        filter: "startswith", //// Filtreleme, girilen metinle başlayan öğeleri gösterir
+        // Veri kaynağını yapılandırır
+        dataSource: {
+          transport: {
+            read: {
+              // Verinin alım türünü belirtir
+              dataType: "jsonp", // JSONP (JSON with Padding) formatında veri alımı yapılır
+
+              // Veri kaynağının URL'si
+              url: "https://demos.telerik.com/kendo-ui/service/Products", // Veri kaynağının URL'si
+            },
+          },
+        },
+      });
+    });
+  </script>
+</html>

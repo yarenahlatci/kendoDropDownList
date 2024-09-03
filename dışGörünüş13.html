@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <div class="configurator">
+      <div class="header">Configurator</div>
+      <div class="box-col">
+        <ul class="options">
+          <li>
+            <h4>Size</h4>
+            <input id="size" name="size" />
+          </li>
+        </ul>
+      </div>
+      <div class="box-col">
+        <ul class="options">
+          <li>
+            <h4>Fill Mode</h4>
+            <input id="fillMode" name="fillMode" />
+          </li>
+        </ul>
+      </div>
+      <div class="box-col">
+        <ul class="options">
+          <li>
+            <h4>Border Radius</h4>
+            <input id="rounded" name="rounded" />
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300">
+        <label for="products">Select a product:</label>
+        <input id="products" />
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        // Ürün DropDownList'ini oluşturur
+        var ddl = $("#products")
+          .kendoDropDownList({
+            placeholder: "Select product", // Seçim yapılmadığında gösterilecek yer tutucu metin
+            dataTextField: "ProductName", // DropDownList'te gösterilecek metin alanı
+            dataValueField: "ProductID", // Her öğeye atanacak değeri belirtir
+            filter: "contains", // Kullanıcı yazdıkça, bu metin içeren öğeleri filtreler
+            dataSource: {
+              type: "odata", // OData veri kaynağı kullanır
+              transport: {
+                read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products", // Verilerin alındığı URL
+              },
+            },
+          })
+          .data("kendoDropDownList"); // DropDownList widget'ını alır
+
+        // Boyut seçimi DropDownList'ini oluşturur
+        var size = $("#size")
+          .kendoDropDownList({
+            dataTextField: "text", // DropDownList'te gösterilecek metin alanı
+            dataValueField: "value", // Her öğeye atanacak değeri belirtir
+            value: "medium", // Varsayılan değer
+            change: onChange, // Değer değiştiğinde çalışacak olay fonksiyonu
+            dataSource: [
+              { text: "Small", value: "small" },
+              { text: "Medium", value: "medium" },
+              { text: "Large", value: "large" },
+              { text: "None", value: "none" },
+            ],
+          })
+          .data("kendoDropDownList"); // DropDownList widget'ını alır
+
+        // Köşe yuvarlama seçimi DropDownList'ini oluşturur
+        var rounded = $("#rounded")
+          .kendoDropDownList({
+            dataTextField: "text", // DropDownList'te gösterilecek metin alanı
+            dataValueField: "value", // Her öğeye atanacak değeri belirtir
+            change: onChange, // Değer değiştiğinde çalışacak olay fonksiyonu
+            value: "medium", // Varsayılan değer
+            dataSource: [
+              { text: "Small", value: "small" },
+              { text: "Medium", value: "medium" },
+              { text: "Large", value: "large" },
+              { text: "Full", value: "full" },
+              { text: "None", value: "none" },
+            ],
+          })
+          .data("kendoDropDownList"); // DropDownList widget'ını alır
+
+        // Doldurma modu seçimi DropDownList'ini oluşturur
+        var fill = $("#fillMode")
+          .kendoDropDownList({
+            dataTextField: "text", // DropDownList'te gösterilecek metin alanı
+            dataValueField: "value", // Her öğeye atanacak değeri belirtir
+            change: onChange, // Değer değiştiğinde çalışacak olay fonksiyonu
+            value: "solid", // Varsayılan değer
+            dataSource: [
+              { text: "Solid", value: "solid" },
+              { text: "Flat", value: "flat" },
+              { text: "Outline", value: "outline" },
+              { text: "None", value: "none" },
+            ],
+          })
+          .data("kendoDropDownList"); // DropDownList widget'ını alır
+
+        // DropDownList'lerdeki değişiklikleri işleyen fonksiyon
+        function onChange(e) {
+          // Diğer DropDownList'lerin değerlerini alır
+          var sizeValue = size.value();
+          var roundedValue = rounded.value();
+          var fillValue = fill.value();
+
+          // Ürün DropDownList'inin seçeneklerini günceller
+          ddl.setOptions({
+            size: sizeValue, // Boyut seçeneği
+            rounded: roundedValue, // Köşe yuvarlama seçeneği
+            fillMode: fillValue, // Doldurma modu seçeneği
+          });
+        }
+      });
+    </script>
+    <style>
+      .k-picker.k-dropdownlist {
+        width: 140px;
+      }
+    </style>
+  </body>
+</html>

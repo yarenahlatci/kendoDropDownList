@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <div class="note" style="text-align: center">
+      <p>
+        Resize the browser to see how the DropDownList popup adapts to different
+        resolutions.
+      </p>
+    </div>
+
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300">
+        <label for="dropdownlist">Select a product:</label>
+        <input id="dropdownlist" />
+      </div>
+    </div>
+  </body>
+  <script>
+    $(document).ready(function () {
+      // CRUD işlemleri için kullanılacak temel URL
+      var crudServiceBaseUrl = "https://demos.telerik.com/kendo-ui/service";
+
+      // Kendo UI DataSource oluşturuluyor
+      var dataSource = new kendo.data.DataSource({
+        batch: true, // Verilerin topluca işlenmesini sağlar
+
+        // Veri taşıma (transport) ayarları
+        transport: {
+          // Verileri okuma (read) işlemi
+          read: {
+            url: crudServiceBaseUrl + "/Products", // Ürünleri okuma URL'si
+            dataType: "jsonp", // JSONP formatında veri alımı
+          },
+          // Yeni veri oluşturma (create) işlemi
+          create: {
+            url: crudServiceBaseUrl + "/Products/Create", // Yeni ürün oluşturma URL'si
+            dataType: "jsonp", // JSONP formatında veri gönderimi
+          },
+          // Veri gönderimi ayarları
+          parameterMap: function (options, operation) {
+            // "read" işlemi dışındaki işlemler için veri formatını ayarlar
+            if (operation !== "read" && options.models) {
+              return { models: kendo.stringify(options.models) }; // Verileri JSON formatına dönüştürür
+            }
+          },
+        },
+
+        // Veri şeması ve model tanımlamaları
+        schema: {
+          model: {
+            id: "ProductID", // Her modelin benzersiz tanımlayıcısı
+            fields: {
+              ProductID: { type: "number" }, // Ürün ID'si, sayı türünde
+              ProductName: { type: "string" }, // Ürün adı, metin türünde
+            },
+          },
+        },
+      });
+
+      // Kendo UI DropDownList widget'ını oluşturur
+      $("#dropdownlist").kendoDropDownList({
+        adaptiveMode: "auto", // Widget'ın boyutunu otomatik olarak ayarlar
+        size: "large", // Widget'ın boyutunu büyük yapar
+        dataTextField: "ProductName", // Liste öğelerinde gösterilecek metin alanı
+        dataValueField: "ProductID", // Liste öğelerinin değerini belirtir
+        dataSource: dataSource, // Kullanılacak veri kaynağı
+      });
+    });
+  </script>
+  <style>
+    .note {
+      font: normal 18px "Metric";
+      border-radius: 2px;
+      margin: 20px auto 40px auto;
+      padding: 20px;
+      border-left: 4px solid;
+      border-left-color: #5392e4;
+      background: rgba(83, 146, 228, 0.1);
+      text-align: center;
+    }
+  </style>
+</html>

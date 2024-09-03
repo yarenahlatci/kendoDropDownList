@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body></body>
+  <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+    <div class="k-w-300">
+      <label for="products">Products:</label>
+      <input id="products" />
+    </div>
+  </div>
+  <script>
+    // Belge tamamen yüklendiğinde çalışacak fonksiyonu başlatır
+    $(document).ready(function () {
+      // Kendo UI DropDownList widget'ını '#products' ID'li HTML öğesi için oluşturur
+      $("#products").kendoDropDownList({
+        // Kendo UI DropDownList'ında veri filtreleme türünü belirtir
+        filter: "startswith", // Filtreleme, girilen metinle başlayan öğeleri gösterir
+
+        // DropDownList'te gösterilecek veri alanını belirtir
+        dataTextField: "ProductName", // Liste öğelerinde görünecek metin (ürün adı)
+
+        // DropDownList'te arka planda tutulacak veri alanını belirtir
+        dataValueField: "ProductID", // Liste öğelerinin değeri (ürün ID'si)
+
+        // Veri kaynağını yapılandırır
+        dataSource: {
+          type: "odata", // Veri kaynağının türü: OData (Open Data Protocol)
+          serverFiltering: true, // Sunucu tarafında filtreleme yapabilir
+          transport: {
+            read: {
+              url: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products", // Veri kaynağının URL'si
+            },
+          },
+        },
+      });
+    });
+  </script>
+</html>

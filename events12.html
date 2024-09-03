@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="https://demos.telerik.com/kendo-ui/dropdownlist/events" />
+    <style>
+      html {
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="../content/shared/styles/examples-offline.css"
+    />
+    <script src="../content/shared/js/console.js"></script>
+  </head>
+  <body>
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300">
+        <label for="dropdownlist">DropDownList</label>
+        <input id="dropdownlist" />
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        // "open" olayı gerçekleştiğinde çalışacak fonksiyon
+        function onOpen() {
+          if (typeof kendoConsole !== "undefined") {
+            kendoConsole.log("event: open"); // Konsola "event: open" yazdırır
+          }
+        }
+
+        // "close" olayı gerçekleştiğinde çalışacak fonksiyon
+        function onClose() {
+          if (typeof kendoConsole !== "undefined") {
+            kendoConsole.log("event: close"); // Konsola "event: close" yazdırır
+          }
+        }
+
+        // Kullanıcı seçimi değiştirdiğinde çalışacak fonksiyon
+        function onChange() {
+          if (typeof kendoConsole !== "undefined") {
+            kendoConsole.log("event: change"); // Konsola "event: change" yazdırır
+          }
+        }
+
+        // Bir öğe seçildiğinde çalışacak fonksiyon
+        function onSelect(e) {
+          if (typeof kendoConsole !== "undefined") {
+            if (e.dataItem) {
+              // Eğer seçilen veri varsa
+              var dataItem = e.dataItem;
+              kendoConsole.log(
+                "seçildi :: select (" +
+                  dataItem.text +
+                  " : " +
+                  dataItem.value +
+                  ")"
+              ); // Seçilen öğenin metin ve değerini konsola yazdırır
+            } else {
+              kendoConsole.log("event :: select"); // Seçim yapılmış fakat veri yoksa bu mesajı konsola yazdırır
+            }
+          }
+        }
+
+        // Veri bağlandığında çalışacak fonksiyon
+        function onDataBound(e) {
+          if (typeof kendoConsole !== "undefined") {
+            kendoConsole.log("event :: dataBound"); // Konsola "event :: dataBound" yazdırır
+          }
+        }
+
+        // Filtreleme işlemi gerçekleştiğinde çalışacak fonksiyon
+        function onFiltering(e) {
+          if (typeof kendoConsole !== "undefined") {
+            kendoConsole.log("event :: filtering"); // Konsola "event :: filtering" yazdırır
+          }
+        }
+
+        // Dropdown list için veri kaynakları
+        var data = [
+          { text: "Item1", value: "1" }, // Dropdown list'te görünecek ilk öğe
+          { text: "Item2", value: "2" }, // İkinci öğe
+          { text: "Item3", value: "3" }, // Üçüncü öğe
+        ];
+
+        // Kendo DropDownList widget'ını oluşturur ve yapılandırır
+        $("#dropdownlist").kendoDropDownList({
+          dataTextField: "text", // Dropdown list'te gösterilecek metin alanı
+          dataValueField: "value", // Her öğeye atanacak değeri belirtir
+          dataSource: data, // Veri kaynağı olarak yukarıdaki 'data' dizisini kullanır
+          filter: "startswith", // Kullanıcı metin girmeye başladığında, bu metinle başlayan öğeleri filtreler
+          select: onSelect, // Seçim yapıldığında çalışacak olay fonksiyonu
+          change: onChange, // Seçim değiştiğinde çalışacak olay fonksiyonu
+          close: onClose, // Dropdown list kapandığında çalışacak olay fonksiyonu
+          open: onOpen, // Dropdown list açıldığında çalışacak olay fonksiyonu
+          filtering: onFiltering, // Filtreleme yapıldığında çalışacak olay fonksiyonu
+          dataBound: onDataBound, // Veri bağlandığında çalışacak olay fonksiyonu
+        });
+      });
+    </script>
+    <div class="kd-example-console">
+      <div class="header">
+        <span class="title">CONSOLE LOG</span>
+        <span class="clear kd-text-secondary">Clear log</span>
+      </div>
+      <div class="console"></div>
+    </div>
+  </body>
+</html>

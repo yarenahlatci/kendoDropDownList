@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300">
+        <label for="products">Type a custom product name</label>
+        <input id="products" />
+        <div class="demo-hint">e.g. 'custom'</div>
+      </div>
+    </div>
+    <!-- `noDataTemplate` scripti, veri bulunamadığında gösterilecek şablonu tanımlar. -->
+    <script id="noDataTemplate" type="text/x-kendo-tmpl">
+      <div>
+          No data found. Do you want to add new item - '#: instance.filterInput.val() #' ?
+      </div>
+      <br />
+      <!-- Kullanıcıya yeni bir ürün ekleyebilmesi için bir buton sunar -->
+      <button class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md"
+              onclick="addNew('#: instance.element[0].id #', '#: instance.filterInput.val() #')">
+          Add new item
+      </button>
+    </script>
+
+    <script>
+      // `addNew` fonksiyonu, veri kaynağına yeni bir ürün ekler.
+      function addNew(widgetId, value) {
+        // Widget'ı ID'ye göre seçer ve Kendo DropDownList widget nesnesini alır.
+        var widget = $("#" + widgetId).getKendoDropDownList();
+        var dataSource = widget.dataSource;
+
+        // Kullanıcıdan yeni ürün eklemek için onay alır.
+        if (confirm("Are you sure?")) {
+          // Veri kaynağına yeni ürün ekler.
+          // `ProductID` genellikle sunucu tarafından otomatik atanır, bu yüzden `0` olarak ayarlanır.
+          dataSource.add({
+            ProductID: 0,
+            ProductName: value,
+          });
+
+          // `sync` olayı, veri kaynağı sunucuyla senkronize olduğunda çalışır.
+          dataSource.one("sync", function () {
+            // Yeni ürünü seçer.
+            widget.select(dataSource.view().length - 1);
+          });
+
+          // Değişiklikleri sunucuya gönderir.
+          dataSource.sync();
+        }
+      }
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        // CRUD hizmetinin temel URL'sini belirler.
+        var crudServiceBaseUrl = "https://demos.telerik.com/kendo-ui/service";
+
+        // Kendo DataSource oluşturur.
+        var dataSource = new kendo.data.DataSource({
+          batch: true, // Veri ekleme, güncelleme ve silme işlemlerinin topluca yapılmasını sağlar.
+          transport: {
+            // Verileri okumak için kullanılan URL.
+            read: {
+              url: crudServiceBaseUrl + "/Products",
+              dataType: "jsonp", // JSONP veri formatını kullanır.
+            },
+            // Verileri eklemek için kullanılan URL.
+            create: {
+              url: crudServiceBaseUrl + "/Products/Create",
+              dataType: "jsonp",
+            },
+            parameterMap: function (options, operation) {
+              // Veri okuma dışındaki işlemler (örneğin, ekleme) için modelleri JSON formatında gönderir.
+              if (operation !== "read" && options.models) {
+                return { models: kendo.stringify(options.models) };
+              }
+            },
+          },
+          schema: {
+            model: {
+              id: "ProductID", // Modelin benzersiz kimliği.
+              fields: {
+                ProductID: { type: "number" },
+                ProductName: { type: "string" },
+              },
+            },
+          },
+        });
+
+        // DropDownList widget'ını oluşturur ve yapılandırır.
+        $("#products").kendoDropDownList({
+          filter: "startswith", // Kullanıcının yazdığı metinle başlayan öğeleri filtreler.
+          dataTextField: "ProductName", // DropDownList'te gösterilecek metin alanı.
+          dataValueField: "ProductID", // DropDownList'te her öğeye atanacak değeri belirtir.
+          dataSource: dataSource, // DropDownList için veri kaynağı.
+          noDataTemplate: $("#noDataTemplate").html(), // Veri bulunmadığında gösterilecek şablon.
+        });
+      });
+    </script>
+    <style>
+      .k-no-data {
+        display: table;
+        width: 100%;
+        padding-top: 20px;
+      }
+    </style>
+  </body>
+</html>

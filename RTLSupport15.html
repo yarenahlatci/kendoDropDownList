@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300 k-rtl">
+        <label for="input">RTL DropDownList</label>
+        <input id="input" />
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        // DropDownList için kullanılacak veriler
+        var data = [
+          { text: "Item1", value: "1" },
+          { text: "Item2", value: "2" },
+          { text: "Item3", value: "3" },
+        ];
+
+        // DropDownList widget'ını oluşturur ve yapılandırır
+        $("#input").kendoDropDownList({
+          dataTextField: "text", // Listede görünecek metin alanı
+          dataValueField: "value", // Listede her öğeye atanacak değer
+          dataSource: data, // DropDownList için veri kaynağı
+        });
+      });
+    </script>
+  </body>
+</html>

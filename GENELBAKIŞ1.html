@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+          <span class="k-d-inline-block">Find restaurants in your area</span>
+          <input id="kd-place-chooser" />
+
+    </div>
+    <script>
+        // Sayfa yüklendiğinde çalışacak kodları içeren bir fonksiyon
+        $(document).ready(function () {
+          
+          // Kendo UI DataSource oluşturuluyor
+          var dataSource = new kendo.data.DataSource({
+            data: [ // Bu, veri kaynağında yer alacak şehirlerin bir listesidir
+              { CityID: 1, CityName: "Lisboa" },
+              { CityID: 2, CityName: "Moscow" },
+              { CityID: 3, CityName: "Napoli" },
+              { CityID: 4, CityName: "Tokyo" },
+              { CityID: 5, CityName: "Oslo" },
+              { CityID: 6, CityName: "Paris" },
+              { CityID: 7, CityName: "Porto" },
+              { CityID: 8, CityName: "Rome" },
+              { CityID: 9, CityName: "Berlin" },
+              { CityID: 10, CityName: "Nice" },
+              { CityID: 11, CityName: "New York" },
+              { CityID: 12, CityName: "Sao Paulo" },
+              { CityID: 13, CityName: "Rio De Janeiro" },
+              { CityID: 14, CityName: "Venice" },
+              { CityID: 15, CityName: "Los Angeles" },
+              { CityID: 16, CityName: "Madrid" },
+              { CityID: 17, CityName: "Barcelona" },
+              { CityID: 18, CityName: "Prague" },
+              { CityID: 19, CityName: "Mexico City" },
+              { CityID: 20, CityName: "Buenos Aires" },
+            ],
+            // Şehirleri CityName'e göre artan sırayla sıralar
+            sort: { field: "CityName", dir: "asc" },
+          });
+      
+          // Kendo DropDownList widget'ını başlatır ve yapılandırır
+          $("#kd-place-chooser").kendoDropDownList({
+            filter: "contains", // Kullanıcılar yazdıkça arama yapacak şekilde filtreleme
+            optionLabel: "Please select city...", // Dropdown listesi için varsayılan etiket
+            dataTextField: "CityName", // Liste öğelerinin görünür kısmı
+            dataValueField: "CityID", // Liste öğelerinin arka planda tutulan değeri
+            dataSource: dataSource, // Yukarıda tanımladığımız veri kaynağı
+          });
+        });
+      </script>
+      
+  </body>
+</html>

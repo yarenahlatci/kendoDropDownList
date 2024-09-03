@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Temel URL olarak belirlenmiş, diğer kaynaklar bu URL'ye göre yüklenir -->
+    <base href="https://demos.telerik.com/kendo-ui/dropdownlist/basic-usage" />
+
+    <!-- Sayfa için temel stil ayarları -->
+    <style>
+      html {
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+    <title></title>
+
+    <!-- Kendo UI stil dosyasını ekler -->
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+
+    <!-- jQuery kütüphanesini ekler -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- Kendo UI JavaScript dosyasını ekler -->
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
+      <div class="k-w-300">
+        <label for="customers">Customers</label>
+        <input id="customers" />
+      </div>
+    </div>
+  </body>
+  <script>
+    // Sayfa tamamen yüklendiğinde çalışacak işlev
+    $(document).ready(function () {
+      // '#customers' ID'sine sahip HTML öğesi için Kendo UI DropDownList widget'ını oluşturur
+      $("#customers").kendoDropDownList({
+        // Liste öğelerinde gösterilecek veri alanını belirtir
+        dataTextField: "ContactName", // Her bir öğede gösterilecek metin (müşteri adı)
+
+        // Liste öğelerinin değerini belirtir
+        dataValueField: "CustomerID", // Her bir öğenin değeri (müşteri ID'si)
+
+        // DropDownList'in yüksekliğini ayarlar
+        height: 400, // DropDownList'in yüksekliği (piksel cinsinden)
+
+        // Veri kaynağını yapılandırır
+        dataSource: {
+          type: "odata", // Veri kaynağı türü, OData protokolü ile veri alımı yapılır
+
+          transport: {
+            // Verinin alım türünü belirtir
+            read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Customers", // Veri kaynağının URL'si
+          },
+
+          // Verileri gruplamak için ayar
+          group: { field: "Country" }, // Müşteri verilerini ülkeye göre gruplar
+        },
+      });
+    });
+  </script>
+</html>
