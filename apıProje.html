@@ -38,15 +38,27 @@
         <h4>🎈 Selection 🎈</h4>
         <ul class="options">
           <li>
-            <input id="value" value="1" style="width: 100px; margin: 0" />
+            <input
+              id="value"
+              value="1"
+              style="width: 200px; margin: 0; text-align: center"
+            />
             <button id="setValue">Select by value (Delete operation)</button>
           </li>
           <li>
-            <input id="index" value="0" style="width: 100px; margin: 0" />
+            <input
+              id="index"
+              value="0"
+              style="width: 200px; margin: 0; text-align: center"
+            />
             <button id="select">Select by index</button>
           </li>
           <li>
-            <input id="word" value="Pulp" style="width: 100px; margin: 0" />
+            <input
+              id="word"
+              placeholder="Aramak istediğiniz filmi girin.."
+              style="width: 200px; margin: 0"
+            />
             <button id="find">Select item starting with</button>
           </li>
         </ul>
@@ -139,7 +151,7 @@
             dataSource.sync(); // DataSource'ı senkronize eder, yani değişiklikleri kaydeder
             alert("Silinen değer: " + itemText); // Kullanıcıya silinen öğenin metni ile bir uyarı gösterir
           } else {
-            alert("Aradığınız değer bulunamadı!"); // Eğer belirtilen değere sahip bir öğe bulunamazsa kullanıcıya uyarı gösterir
+            alert("Aradığın değer zaten silinmiş!"); // Eğer belirtilen değere sahip bir öğe bulunamazsa kullanıcıya uyarı gösterir
           }
         });
 
