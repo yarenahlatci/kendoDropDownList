@@ -11,26 +11,23 @@
   </head>
   <link rel="stylesheet" href="style.css" />
   <body>
-    <div class="header">Configurator</div>
+    <div class="header">🎈 Configurator 🎈</div>
 
     <div class="configurator">
       <div class="box-col">
-        <h4>API Functions</h4>
+        <h4>🎈 API Functions 🎈</h4>
         <ul class="options">
-          <li>
-            <button id="enable">Enable</button>
-            <br />
-            <button id="disable">Disable</button> <br />
-          </li>
-          <li><button id="readonly">Readonly</button> <br /></li>
-          <li>
-            <button id="open">Open</button> <br />
-            <button id="close">Close</button> <br />
-          </li>
-          <li>
-            <button id="getValue">Get value</button> <br />
-            <button id="getText">Get text</button> <br />
-          </li>
+          <li><button id="enable">Enable</button></li>
+
+          <li><button id="disable">Disable</button></li>
+          <li><button id="readonly">Readonly</button></li>
+
+          <li><button id="open">Open</button></li>
+          <li><button id="close">Close</button></li>
+
+          <li><button id="getValue">Get value</button></li>
+          <li><button id="getText">Get text</button></li>
+
           <li>
             <button id="delete">Delete</button>
             <!-- Delete button -->
@@ -38,7 +35,7 @@
         </ul>
       </div>
       <div class="box-col">
-        <h4>Selection</h4>
+        <h4>🎈 Selection 🎈</h4>
         <ul class="options">
           <li>
             <input id="value" value="1" style="width: 100px; margin: 0" />
@@ -97,7 +94,7 @@
             dataTextField: "text", // Listede görünecek metin
             dataValueField: "value", // Listede her öğeye atanacak değer
             dataSource: data, // Kullanılacak veri kaynağı
-            height: 100, // DropDownList'in yüksekliği
+            height: 150, // DropDownList'in yüksekliği
           })
           .data("kendoDropDownList");
 
@@ -120,6 +117,11 @@
           if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
             dropdownlist.search($("#word").val());
         };
+        function onClose() {
+          if (typeof kendoConsole !== "undefined") {
+            console.log("event:close"); // Konsola "event: close" yazdırır
+          }
+        }
         // Delete butonuna tıklandığında işlevi tanımlar
         $("#delete").click(function () {
           var valueToDelete = $("#value").val(); // Kullanıcı tarafından girilen değeri alır
@@ -153,10 +155,12 @@
         });
         $("#open").click(function () {
           dropdownlist.open(); // DropDownList'i açar
+          alert("DropDown açıldı!");
         });
         $("#close").click(function () {
           dropdownlist.close(); // DropDownList'i kapatır
         });
+
         $("#getValue").click(function () {
           alert(dropdownlist.value()); // Mevcut seçili değeri gösterir
         });

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="https://demos.telerik.com/kendo-ui/grid/events" />
+    <style>
+      html {
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+    <title></title>
+    <link
+      href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="../content/shared/styles/examples-offline.css"
+    />
+    <script src="../content/shared/js/console.js"></script>
+  </head>
+  <body>
+    <div id="example">
+      <!-- Kendo Grid bileşeninin yerleştirileceği div. -->
+      <div id="grid"></div>
+
+      <script>
+        // Seçili hücrelerin değiştiğinde tetiklenen fonksiyon.
+        function onChange(arg) {
+          // Seçili hücrelerin metinlerini alır ve bir dizi oluşturur.
+          var selected = $.map(this.select(), function (item) {
+            return $(item).text();
+          });
+
+          // Seçili öğelerin sayısını ve metinlerini konsola yazdırır.
+          kendoConsole.log(
+            "Selected: " +
+              selected.length +
+              " item(s), [" +
+              selected.join(", ") +
+              "]"
+          );
+        }
+
+        // Grid verileri bağlandığında tetiklenen fonksiyon.
+        function onDataBound(arg) {
+          kendoConsole.log("Grid data bound");
+        }
+
+        // Grid verileri bağlanırken tetiklenen fonksiyon.
+        function onDataBinding(arg) {
+          kendoConsole.log("Grid data binding");
+        }
+
+        // Grid sıralandığında tetiklenen fonksiyon.
+        function onSorting(arg) {
+          kendoConsole.log(
+            "Sorting on field: " +
+              arg.sort.field +
+              ", direction:" +
+              (arg.sort.dir || "none")
+          );
+        }
+
+        // Grid filtreleme uygulandığında tetiklenen fonksiyon.
+        function onFiltering(arg) {
+          kendoConsole.log("Filter on " + kendo.stringify(arg.filter));
+        } //kendo.stringify: JavaScript nesnelerini JSON formatına dönüştürmek için kullanılan bir işlevdir.kendo.stringify fonksiyonu, Kendo UI'nin veri işleme ve formatlama işlevleriyle ilgili yardımcı bir araçtır.
+
+        // Grid sayfalama yapıldığında tetiklenen fonksiyon.
+        function onPaging(arg) {
+          kendoConsole.log("Paging to page index:" + arg.page);
+        }
+
+        // Grid gruplama yapıldığında tetiklenen fonksiyon.
+        function onGrouping(arg) {
+          kendoConsole.log("Group on " + kendo.stringify(arg.groups));
+        }
+
+        // Grid grup genişletildiğinde tetiklenen fonksiyon.
+        function onGroupExpand(arg) {
+          kendoConsole.log(
+            "The group to be expanded: " + kendo.stringify(arg.group)
+          );
+        }
+
+        // Grid grup daraltıldığında tetiklenen fonksiyon.
+        function onGroupCollapse(arg) {
+          kendoConsole.log(
+            "The group to be collapsed: " + kendo.stringify(arg.group)
+          );
+        }
+
+        // Doküman tamamen yüklendiğinde bu fonksiyon çalışır.
+        $(document).ready(function () {
+          // Kendo Grid bileşenini başlatır ve konfigüre eder.
+          $("#grid").kendoGrid({
+            // Verilerin alınacağı kaynak ayarlanır.
+            dataSource: {
+              transport: {
+                read: {
+                  url: "https://demos.telerik.com/kendo-ui/service/Products",
+                  dataType: "jsonp",
+                },
+              },
+              pageSize: 20,
+            },
+            height: 350, // Grid yüksekliğini ayarlar.
+            change: onChange, // Hücre seçimi değiştiğinde tetiklenen fonksiyon.
+            dataBound: onDataBound, // Veriler grid'e bağlandığında tetiklenen fonksiyon.
+            dataBinding: onDataBinding, // Veriler grid'e bağlanırken tetiklenen fonksiyon.
+            selectable: "multiple cell", // Birden fazla hücrenin seçilmesine izin verir.
+            pageable: true, // Sayfalamanın etkin olduğunu belirtir.
+            sortable: true, // Sıralamanın etkin olduğunu belirtir.
+            filterable: true, // Filtrelemenin etkin olduğunu belirtir.
+            groupable: true, // Gruplamanın etkin olduğunu belirtir.
+            sort: onSorting, // Sıralama yapıldığında tetiklenen fonksiyon.
+            filter: onFiltering, // Filtreleme yapıldığında tetiklenen fonksiyon.
+            group: onGrouping, // Gruplama yapıldığında tetiklenen fonksiyon.
+            page: onPaging, // Sayfalama yapıldığında tetiklenen fonksiyon.
+            groupExpand: onGroupExpand, // Grup genişletildiğinde tetiklenen fonksiyon.
+            groupCollapse: onGroupCollapse, // Grup daraltıldığında tetiklenen fonksiyon.
+            columns: [
+              // Grid kolonlarını tanımlar.
+              {
+                field: "ProductName", // Kolon adı.
+                title: "Product Name", // Kolon başlığı.
+              },
+              {
+                field: "UnitPrice", // Kolon adı.
+                title: "Unit Price", // Kolon başlığı.
+                format: "{0:c}", // Para birimi formatını belirtir.
+              },
+              {
+                field: "UnitsInStock", // Kolon adı.
+                title: "Units In Stock", // Kolon başlığı.
+              },
+            ],
+          });
+        });
+      </script>
+    </div>
+
+    <!-- Konsol loglarını göstermek için kullanılan bölge. -->
+    <div class="kd-example-console">
+      <div class="header">
+        <span class="title">CONSOLE LOG</span>
+        <span class="clear kd-text-secondary">Clear log</span>
+      </div>
+      <div class="console"></div>
+    </div>
+  </body>
+</html>

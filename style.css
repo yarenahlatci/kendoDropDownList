@@ -221,3 +221,60 @@ background-color: gold;
     text-transform: uppercase;
     letter-spacing: 1.5px;
   }
+
+
+  /*RESPONSİVE TASARIM*/
+  /* Ekran boyutu 1024px ve altı için */
+@media (max-width: 1024px) {
+  .configurator {
+      flex-direction: column;
+  }
+  
+  .box-col {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+}
+
+/* Ekran boyutu 768px ve altı için */
+@media (max-width: 768px) {
+  .header, h4 {
+      font-size: 1.2em;
+      padding: 10px;
+  }
+
+  button {
+      width: 100%;
+      font-size: 0.8em;
+  }
+
+  input {
+      font-size: 0.8em;
+  }
+
+  .select {
+      width: 100%;
+      font-size: 0.9em;
+  }
+}
+
+/* Ekran boyutu 480px ve altı için */
+@media (max-width: 480px) {
+  .header, h4 {
+      font-size: 1em;
+      padding: 8px;
+  }
+
+  button {
+      font-size: 0.7em;
+  }
+
+  input {
+      font-size: 0.7em;
+  }
+
+  .select {
+      width: 100%;
+      font-size: 0.8em;
+  }
+}

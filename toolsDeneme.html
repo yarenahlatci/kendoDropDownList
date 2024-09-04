@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    const numbers = [1, 2, 3, 4, 5];
+    //DÖNGÜ 1
+    for (let i = 0; i < numbers.length; i++) {
+      console.log("DÖNGÜDEKİ SAYI:", numbers[i]);
+    }
+    console.log("İlk döngüden çıktınız.");
+    //DÖNGÜ 2
+    numbers.forEach(function (number) {
+      console.log("DÖNGÜDEKİ SAYI:", number);
+    });
+    console.log("İkinci döngüden çıktınız.");
+
+    //DÖNGÜ 3
+    numbers.forEach((number) => {
+      console.log("DÖNGÜDEKİ SAYI:", number);
+    });
+    console.log("Üçüncü döngüden çıktınız.");
+  </script>
+</html>
