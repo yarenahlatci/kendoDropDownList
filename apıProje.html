@@ -9,25 +9,27 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
   </head>
+  <link rel="stylesheet" href="style.css" />
   <body>
+    <div class="header">Configurator</div>
+
     <div class="configurator">
-      <div class="header">Configurator</div>
       <div class="box-col">
         <h4>API Functions</h4>
         <ul class="options">
           <li>
             <button id="enable">Enable</button>
-            <button id="disable">Disable</button>
+            <br />
+            <button id="disable">Disable</button> <br />
+          </li>
+          <li><button id="readonly">Readonly</button> <br /></li>
+          <li>
+            <button id="open">Open</button> <br />
+            <button id="close">Close</button> <br />
           </li>
           <li>
-            <button id="readonly">Readonly</button>
-          </li>
-          <li>
-            <button id="open">Open</button> <button id="close">Close</button>
-          </li>
-          <li>
-            <button id="getValue">Get value</button>
-            <button id="getText">Get text</button>
+            <button id="getValue">Get value</button> <br />
+            <button id="getText">Get text</button> <br />
           </li>
           <li>
             <button id="delete">Delete</button>
@@ -39,25 +41,27 @@
         <h4>Selection</h4>
         <ul class="options">
           <li>
-            <input id="index" value="0" style="width: 40px; margin: 0" />
-            <button id="select">Select by index</button>
+            <input id="value" value="1" style="width: 100px; margin: 0" />
+            <button id="setValue">Select by value (Delete operation)</button>
           </li>
           <li>
-            <input id="value" value="1" style="width: 40px; margin: 0" />
-            <button id="setValue">Select by value</button>
+            <input id="index" value="0" style="width: 100px; margin: 0" />
+            <button id="select">Select by index</button>
           </li>
           <li>
             <input id="word" value="Pulp" style="width: 100px; margin: 0" />
             <button id="find">Select item starting with</button>
           </li>
         </ul>
-      </div>
-    </div>
-
-    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px">
-      <div class="k-w-300">
-        <label for="movies">Select movie</label>
-        <input id="movies" />
+        <div
+          class="k-d-flex k-justify-content-center"
+          style="padding-top: 54px"
+        >
+          <div class="k-w-300 select">
+            <label for="movies" class="selectHeader">Select movie</label>
+            <input id="movies" />
+          </div>
+        </div>
       </div>
     </div>
 
@@ -75,6 +79,16 @@
           { text: "One Flew Over the Cuckoo's Nest", value: "8" },
           { text: "Inception", value: "9" },
           { text: "The Dark Knight", value: "10" },
+          { text: "The Shawshank Redemption", value: "11" },
+          { text: "The Godfather", value: "12" },
+          { text: "The Godfather: Part II", value: "13" },
+          { text: "Il buono, il brutto, il cattivo.", value: "14" },
+          { text: "Pulp Fiction", value: "15" },
+          { text: "12 Angry Men", value: "16" },
+          { text: "Schindler's List", value: "17" },
+          { text: "One Flew Over the Cuckoo's Nest", value: "18" },
+          { text: "Inception", value: "19" },
+          { text: "The Dark Knight", value: "20" },
         ];
 
         // DropDownList widget'ını oluşturur
@@ -108,22 +122,25 @@
         };
         // Delete butonuna tıklandığında işlevi tanımlar
         $("#delete").click(function () {
-          var valueToDelete = $("#value").val();
-          var dataSource = dropdownlist.dataSource;
-          var dataItems = dataSource.view();
+          var valueToDelete = $("#value").val(); // Kullanıcı tarafından girilen değeri alır
+          var dataSource = dropdownlist.dataSource; // Dropdown listesine erişir (bu örnekte 'dropdownlist' değişkeni daha önce tanımlanmış olmalı)
+          var dataItems = dataSource.view(); // DataSource'daki verileri alır
           var itemToDelete = dataItems.find(
+            // Girilen değere sahip öğeyi bulur
             (item) => item.value === valueToDelete
           );
 
+          // Eğer bulunan öğe varsa
           if (itemToDelete) {
-            var itemText = itemToDelete.text; // Silinen öğenin metni
-            dataSource.remove(itemToDelete);
-            dataSource.sync(); // DataSource'ı senkronize eder
-            alert("Deleted item: " + itemText); // Silinen öğenin metni ile uyarı gösterir
+            var itemText = itemToDelete.text; // Silinen öğenin metnini alır
+            dataSource.remove(itemToDelete); // Bulunan öğeyi DataSource'dan kaldırır
+            dataSource.sync(); // DataSource'ı senkronize eder, yani değişiklikleri kaydeder
+            alert("Silinen değer: " + itemText); // Kullanıcıya silinen öğenin metni ile bir uyarı gösterir
           } else {
-            alert("No item found with the specified value.");
+            alert("Aradığınız değer bulunamadı!"); // Eğer belirtilen değere sahip bir öğe bulunamazsa kullanıcıya uyarı gösterir
           }
         });
+
         // Kontrol butonlarının olay işleyicilerini tanımlar
         $("#enable").click(function () {
           dropdownlist.enable(); // DropDownList'i etkinleştirir
