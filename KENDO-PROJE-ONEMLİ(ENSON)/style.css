@@ -1,0 +1,107 @@
+/* Genel gövde stilleri */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 10px;
+  }
+
+  
+  /* Etiket ve input alanları için stiller */
+  label {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+    display: block;
+    
+  }
+  
+  /* Input ve button stilleri */
+  input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    width: 200px;
+    font-size: 16px;
+  }
+  
+  button {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Bootstrap ile uyumlu responsive butonlar */
+  button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .k-grid-content {
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+  
+  .k-grid-toolbar {
+    background-color: #f8f9fa;
+  }
+  
+  .k-grid .k-edit-form-container {
+    border-radius: 4px;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .k-grid .k-edit-form-container .k-edit-form-container .k-edit-field label {
+    font-weight: normal;
+  }
+  
+  .k-grid .k-grid-toolbar .k-grid-button {
+    margin-right: 10px;
+  }
+  
+  .k-grid .k-grid-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  /* Kendo Grid kolon başlıkları için stiller */
+  .k-grid-header th {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  /* Sayfalama kısmı */
+  .k-grid-pager {
+    background-color: #f8f9fa;
+    padding: 10px;
+  }
+  
+  /* Popup penceresi */
+  .k-window {
+    border-radius: 4px;
+  }
+  
+  .k-window-titlebar {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .k-window-content {
+    padding: 20px;
+  }
+  
